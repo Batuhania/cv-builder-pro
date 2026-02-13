@@ -2,7 +2,13 @@
 
 A professional, client-side CV/Resume builder built with pure HTML, CSS, and JavaScript.
 
-![Preview](preview.png)
+## Screenshots
+
+<p align="center">
+  <img src="assets/screenshot_1.png" alt="Screenshot 1" width="280">
+  <img src="assets/screenshot_2.png" alt="Screenshot 2" width="280">
+  <img src="assets/screenshot_3.png" alt="Screenshot 3" width="280">
+</p>
 
 ## Features
 

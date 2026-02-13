@@ -100,13 +100,13 @@ const PhotoUpload = {
     validateAndProcess(file) {
         // Check file size
         if (file.size > this.maxFileSize) {
-            CVApp.showNotify('Dosya çok büyük! Max 15MB');
+            CVApp.showNotify(I18n.t('notifications.invalidFile'));
             return;
         }
 
         // Check file type
         if (!file.type.match(/^image\/(jpeg|png|gif|webp)$/)) {
-            CVApp.showNotify('Sadece resim dosyaları kabul edilir');
+            CVApp.showNotify(I18n.t('notifications.invalidFile'));
             return;
         }
 
@@ -179,9 +179,9 @@ const PhotoUpload = {
             CVState.set('personal.photo', this.currentImage);
             CVApp.renderCV();
             this.closeModal();
-            CVApp.showNotify('Fotoğraf kaydedildi!');
+            CVApp.showNotify(I18n.t('notifications.saved'));
         } else {
-            CVApp.showNotify('Önce bir fotoğraf seçin');
+            CVApp.showNotify(I18n.t('notifications.invalidFile'));
         }
     },
 
@@ -190,7 +190,7 @@ const PhotoUpload = {
         this.currentImage = null;
         CVApp.renderCV();
         this.resetPreview();
-        CVApp.showNotify('Fotoğraf kaldırıldı!');
+        CVApp.showNotify(I18n.t('notifications.deleted'));
     }
 };
 
@@ -313,7 +313,7 @@ const DragSort = {
         ).filter(Boolean);
 
         CVState.set(path, reordered);
-        CVApp.showNotify('Sıralama güncellendi!');
+        CVApp.showNotify(I18n.t('notifications.saved'));
     }
 };
 
@@ -364,10 +364,10 @@ const PDFExport = {
 
         try {
             await html2pdf().set(opt).from(clone).save();
-            CVApp.showNotify('PDF indirildi!');
+            CVApp.showNotify(I18n.t('notifications.jsonDownloaded'));
         } catch (error) {
             console.error('PDF export failed:', error);
-            CVApp.showNotify('PDF hatası, yazdırma açılıyor...');
+            CVApp.showNotify(I18n.t('notifications.invalidFile'));
             window.print();
         } finally {
             this.hideProgress();
@@ -454,7 +454,6 @@ const PWAInstaller = {
         this.deferredPrompt.prompt();
         const { outcome } = await this.deferredPrompt.userChoice;
         this.deferredPrompt = null;
-        this.deferredPrompt = null;
         this.hideInstallButton();
     }
 };
@@ -474,7 +473,7 @@ const NativeShare = {
                         title: 'My CV',
                         text: 'Created with CV Pro'
                     });
-                    CVApp.showNotify('CV Paylaşıldı!');
+                    CVApp.showNotify(I18n.t('notifications.saved'));
                     return true;
                 } catch (error) {
                     if (error.name !== 'AbortError') {

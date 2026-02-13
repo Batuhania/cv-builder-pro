@@ -223,7 +223,7 @@ const CVApp = {
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
                 CVState.saveNow();
-                this.showNotify('Kaydedildi!');
+                this.showNotify(I18n.t('notifications.saved'));
             }
         });
     },
