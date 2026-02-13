@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Profesyonel CV Oluşturucu - Akademik ve Kurumsal özgeçmiş hazırlama aracı">
+    <title>CV Pro - Profesyonel CV Oluşturucu</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha384-Yv5O+t3uE3hunW8uyrbpPW3iw6/5/Y7HitWJBLgqfMoA36NogMmy+8wWZMpn3HWc"
+        crossorigin="anonymous"></script>
+
+    <!-- DOMPurify (Security) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"
+        integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu"
+        crossorigin="anonymous"></script>
+
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icons/icon-512.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                // .then(reg => console.log('SW Registered!', reg.scope))
+                // .catch(err => console.log('SW Install Failed', err));
+            });
+        }
+    </script>
+</head>
+
+<body class="theme-academic">
+
+    <!-- ============================================
+         TOOLBAR
+         ============================================ -->
+    <div class="toolbar" role="toolbar" aria-label="Editor Toolbar">
+        <div class="toolbar-row">
+            <!-- Text Formatting -->
+            <button class="btn-tool" data-action="bold" data-i18n-title="ui.bold" title="Kalın (Ctrl+B)"
+                aria-label="Bold" onmousedown="event.preventDefault()"
+                ontouchstart="event.preventDefault()"><b>B</b></button>
+            <button class="btn-tool" data-action="italic" data-i18n-title="ui.italic" title="İtalik (Ctrl+I)"
+                aria-label="Italic" onmousedown="event.preventDefault()"
+                ontouchstart="event.preventDefault()"><i>I</i></button>
+            <button class="btn-tool" data-action="underline" data-i18n-title="ui.underline" title="Altı Çizili (Ctrl+U)"
+                aria-label="Underline" onmousedown="event.preventDefault()"
+                ontouchstart="event.preventDefault()"><u>U</u></button>
+
+            <div class="toolbar-divider"></div>
+
+            <!-- Font Size -->
+            <button class="btn-tool" data-action="fontSize" data-value="5" data-i18n-title="ui.fontLarge" title="Büyük"
+                aria-label="Increase Font Size">A+</button>
+            <button class="btn-tool" data-action="fontSize" data-value="3" data-i18n-title="ui.fontNormal"
+                title="Normal" aria-label="Normal Font Size">A</button>
+            <button class="btn-tool" data-action="fontSize" data-value="1" data-i18n-title="ui.fontSmall" title="Küçük"
+                aria-label="Decrease Font Size">A-</button>
+
+            <div class="toolbar-divider"></div>
+
+            <!-- Theme Selector -->
+            <select class="theme-select" id="theme-select" aria-label="Select CV Theme">
+                <optgroup label="Klasik">
+                    <option value="academic">🎓 Akademik</option>
+                    <option value="corporate">🏢 Kurumsal</option>
+                    <option value="ivy">🏛️ Ivy League</option>
+                    <option value="elegant">🖋️ Elegant</option>
+                    <option value="minimal">✨ Minimalist</option>
+                </optgroup>
+                <optgroup label="Modern">
+                    <option value="tech">💻 Tech</option>
+                    <option value="modern">🌈 Modern</option>
+                    <option value="creative">🎨 Creative</option>
+                    <option value="modern-pro">✨ Modern Pro</option>
+                    <option value="soft-gray">☁️ Ferah Gri</option>
+                    <option value="sky-blue">💎 Gökyüzü</option>
+                </optgroup>
+                <optgroup label="Yaratıcı">
+                    <option value="gamer-8bit">👾 8-Bit Gamer</option>
+                    <option value="terminal">👨‍💻 Terminal / Matrix</option>
+                    <option value="brutalist">🎨 Brutalist Pop</option>
+                    <option value="daily">📰 The Daily (Gazete)</option>
+                    <option value="blueprint">📐 Blueprint (Mimar)</option>
+                    <option value="sketchbook">✏️ Sketchbook</option>
+                    <option value="cyberpunk">🔮 Cyberpunk</option>
+                </optgroup>
+                <optgroup label="Profesyonel">
+                    <option value="executive">👔 Yönetici (Executive)</option>
+                    <option value="navy-pro">🟦 Navy Pro</option>
+                    <option value="sharp-minimal">⬛ Sharp Minimal</option>
+                    <option value="royal">👑 Royal</option>
+                    <option value="dark">🌙 Dark Mode</option>
+                    <option value="gold">👑 Gold</option>
+                </optgroup>
+            </select>
+
+            <!-- Language Selector -->
+            <select id="lang-select" onchange="I18n.setLang(this.value)" aria-label="Select Language"
+                style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ddd; font-size: 12px; background: #fff; cursor: pointer;">
+                <option value="en">🇺🇸 EN</option>
+                <option value="tr">🇹🇷 TR</option>
+                <option value="de">🇩🇪 DE</option>
+                <option value="es">🇪🇸 ES</option>
+                <option value="fr">🇫🇷 FR</option>
+            </select>
+
+            <!-- PWA Install Button -->
+            <button id="pwa-install-btn" class="btn btn-install" onclick="PWAInstaller.install()" style="display: none;"
+                aria-label="Install App">
+                <i class="fas fa-mobile-alt" aria-hidden="true"></i> <span data-i18n="buttons.install">Uygulamayı
+                    Yükle</span>
+            </button>
+
+            <button class="btn btn-primary" onclick="CVApp.handleToolbarAction('print')" title="PDF İndir"
+                data-i18n-title="ui.pdfDownload" data-i18n="buttons.downloadPdf" aria-label="Download PDF"><i
+                    class="fas fa-file-pdf" aria-hidden="true"></i>
+                İndir</button>
+
+            <!-- Mobile Preview Toggle -->
+            <button class="btn-tool preview-toggle-btn" id="preview-toggle-btn" onclick="CVApp.toggleMobilePreview()"
+                data-i18n-title="ui.previewToggle" title="Önizleme" aria-label="Toggle Preview Mode">
+                <i class="fas fa-eye" aria-hidden="true"></i> <span data-i18n="buttons.preview">Önizle</span>
+            </button>
+
+            <div class="toolbar-divider"></div>
+
+            <!-- Sections Toggle -->
+            <div class="dropdown-wrapper" style="position:relative;">
+                <button class="btn-tool" id="btn-sections" data-i18n="buttons.sections"
+                    aria-label="Toggle Sections Menu" aria-haspopup="true">
+                    <i class="fas fa-layer-group" aria-hidden="true"></i> Bölümler
+                </button>
+                <div id="sections-menu" class="dropdown-menu" role="menu"
+                    style="display:none; position:absolute; top:100%; left:0; background:var(--sidebar-bg); border:1px solid #ccc; padding:10px; border-radius:8px; box-shadow:var(--shadow-lg); z-index:1001; min-width:180px; color:#333;">
+                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; cursor:pointer;">
+                        <input type="checkbox" data-toggle="showPhoto"> <span
+                            data-i18n="buttons.menuPhoto">Fotoğraf</span>
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; cursor:pointer;">
+                        <input type="checkbox" data-toggle="showCertifications"> <span
+                            data-i18n="buttons.menuCerts">Projeler/Sertifikalar</span>
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:8px; cursor:pointer;">
+                        <input type="checkbox" data-toggle="showHobbies"> <span
+                            data-i18n="buttons.menuHobbies">Hobiler</span>
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                        <input type="checkbox" data-toggle="showReferences"> <span
+                            data-i18n="buttons.menuRefs">Referanslar</span>
+                    </label>
+                    <hr style="border:none; border-top:1px solid #ddd; margin:10px 0;">
+                    <label style="display:flex; flex-direction:column; gap:4px; cursor:pointer; font-size:12px;">
+                        <span style="font-weight:600;">Beceri Gösterimi</span>
+                        <select data-setting="skillDisplayStyle"
+                            style="padding:5px 8px; border-radius:4px; border:1px solid #ccc; font-size:12px; background:#fff; cursor:pointer;">
+                            <option value="bar">Progress Bar ████</option>
+                            <option value="blocks">Blok Bar █░░</option>
+                            <option value="stars">Yıldız ⭐⭐⭐</option>
+                            <option value="text">Sadece Yazı (Advanced)</option>
+                            <option value="bar-text">Bar + Yazı</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="toolbar-row">
+            <!-- Data Actions -->
+            <button class="btn-tool btn-primary" data-action="download-json" data-i18n="buttons.downloadJson"
+                aria-label="Download JSON Backup">
+                <i class="fas fa-download" aria-hidden="true"></i> JSON İndir
+            </button>
+            <label class="btn-tool btn-primary" style="margin-bottom:0; cursor: pointer;" data-i18n="buttons.uploadJson"
+                aria-label="Upload JSON Backup">
+                <i class="fas fa-upload" aria-hidden="true"></i> JSON Yükle
+                <input type="file" id="json-input" accept=".json" style="display: none;">
+            </label>
+            <button class="btn-tool btn-danger" data-action="reset" data-i18n="buttons.reset" aria-label="Reset CV">
+                <i class="fas fa-trash" aria-hidden="true"></i> Sıfırla
+            </button>
+        </div>
+
+        <span class="toolbar-hint" data-i18n="ui.toolbarHint">
+            *Otomatik kaydedilir • Ctrl+S ile manuel kaydet • Sürükle-bırak ile sırala
+        </span>
+        </span>
+    </div>
+
+    <!-- ============================================
+         CV CONTENT (Dynamically rendered)
+         ============================================ -->
+    <div class="page" id="cv-content">
+        <div class="left-column">
+            <div style="padding: 20mm; text-align: center; color: #888;">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                <p>Yükleniyor...</p>
+            </div>
+        </div>
+        <div class="right-column"></div>
+    </div>
+
+    <!-- ============================================
+         PHOTO UPLOAD MODAL
+         ============================================ -->
+    <div class="modal-overlay" id="photo-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Profil Fotoğrafı</h3>
+                <button class="modal-close" onclick="PhotoUpload.closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="file-drop-zone" id="photo-drop-zone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Fotoğrafı sürükleyin veya seçmek için tıklayın</p>
+                    <p style="font-size:11px; color:#999; margin-top:8px;">Max 2MB • JPEG, PNG, GIF, WEBP</p>
+                    <input type="file" id="photo-file-input" accept="image/jpeg,image/png,image/gif,image/webp"
+                        style="display:none;">
+                </div>
+                <div id="photo-preview" style="display:none; text-align:center; padding:20px;">
+                    <!-- Preview will be inserted here -->
+                </div>
+                <div id="photo-controls" style="display:none; justify-content:center; gap:10px; margin-top:10px;">
+                    <button class="modal-btn modal-btn-secondary" onclick="PhotoUpload.changePhoto()"
+                        style="font-size:12px;">
+                        <i class="fas fa-sync-alt"></i> Değiştir
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="PhotoUpload.removePhoto()">
+                    <i class="fas fa-trash"></i> Kaldır
+                </button>
+                <button class="modal-btn modal-btn-primary" onclick="PhotoUpload.savePhoto()">
+                    <i class="fas fa-check"></i> Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         PDF PROGRESS
+         ============================================ -->
+    <div class="pdf-progress" id="pdf-progress">
+        <i class="fas fa-spinner"></i>
+        <p>PDF oluşturuluyor...</p>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification">Bildirim</div>
+
+    <!-- Scripts (Order matters! i18n first for data generation) -->
+    <script src="i18n.js"></script>
+    <script src="data.js"></script>
+    <script src="renderer.js"></script>
+    <script src="features.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
